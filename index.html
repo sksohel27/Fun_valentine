@@ -112,16 +112,20 @@
         let movePleaseYes = false;
 
         function startMovingButton(button) {
-            button.addEventListener("mouseover", function() {
-                if (movePleaseYes) {
-                    const x = Math.random() * (window.innerWidth - 100);
-                    const y = Math.random() * (window.innerHeight - 50);
-                    button.style.position = "absolute";
-                    button.style.left = `${x}px`;
-                    button.style.top = `${y}px`;
-                }
-            });
+    function moveButton() {
+        if (movePleaseYes) {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            button.style.position = "absolute";
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
         }
+    }
+
+    button.addEventListener("mouseover", moveButton); // For desktop
+    button.addEventListener("touchstart", moveButton); // For mobile
+}
+
 
         noBtn.addEventListener("click", function() {
             if (clickCount < messages.length) {
