@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #ffd6e0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        h1 {
+            color: #d10050;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 20px;
+        }
+        .btn {
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .yes-btn {
+            background-color: #4CAF50;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .no-btn {
+            background-color: #ff4d4d;
+            color: white;
+            position: relative;
+        }
+        #displayImage {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-top: 20px;
+            display: none;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            object-fit: cover;
+        }
+        #displayImage[src*="hqdefault.jpg"] {
+            aspect-ratio: 3 / 4; /* Crops the sides of hqdefault.jpg */
+        }
+        #displayImage[src*="cat-cat-love.gif"] {
+            aspect-ratio: auto; /* Keeps the original aspect ratio */
+        }
+        .rose-message {
+            font-size: 24px;
+            color: #d10050;
+            margin-top: 20px;
+            display: none;
+        }
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+        @media screen and (max-width: 600px) {
+            .btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Will you be my Valentine?</h1>
+        <div>
+            <button class="btn yes-btn" id="yesBtn">Yes</button>
+            <button class="btn no-btn" id="noBtn">No</button>
+        </div>
+        <br>
+        <video autoplay loop muted playsinline id="videoContainer">
+            <source src="WhatsApp Video 2025-02-07 at 20.21.39_37c33ecb.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <!-- Image to be displayed dynamically -->
+        <img id="displayImage" src="" alt="" />
+        
+        <!-- Hidden message -->
+        <div class="rose-message" id="roseMessage">A rose for you</div>
+    </div>
+    
+    <script>
+        const noBtn = document.getElementById("noBtn");
+        const yesBtn = document.getElementById("yesBtn");
+        const videoContainer = document.getElementById("videoContainer");
+        const displayImage = document.getElementById("displayImage");
+        const roseMessage = document.getElementById("roseMessage");
+
+        let clickCount = 0;
+        const messages = [
+            "Are you sure?", 
+            "Really sure?", 
+            "Are you positive?", 
+            "Poooookie please", 
+            "Just think about it?", 
+            "Please, Yes"
+        ];
+
+        let moveButton = false;
+        let movePleaseYes = false;
+
+        function startMovingButton(button) {
+            button.addEventListener("mouseover", function() {
+                if (movePleaseYes) {
+                    const x = Math.random() * (window.innerWidth - 100);
+                    const y = Math.random() * (window.innerHeight - 50);
+                    button.style.position = "absolute";
+                    button.style.left = `${x}px`;
+                    button.style.top = `${y}px`;
+                }
+            });
+        }
+
+        noBtn.addEventListener("click", function() {
+            if (clickCount < messages.length) {
+                noBtn.textContent = messages[clickCount];
+                yesBtn.style.fontSize = `${20 + (clickCount + 1) * 5}px`;
+                
+                if (messages[clickCount] === "Just think about it?") {
+                    moveButton = true; // Enable movement when "Please, Yes" appears next
+                }
+
+                if (messages[clickCount] === "Please, Yes" && moveButton) {
+                    movePleaseYes = true; // Start moving "Please, Yes" when hovered
+                    startMovingButton(noBtn);
+                }
+
+                clickCount++;
+            }
+        });
+
+        yesBtn.addEventListener("click", function() {
+            videoContainer.style.display = "none";
+            displayImage.src = "images/hqdefault.jpg";
+            displayImage.style.display = "block";
+
+            // Remove the No button
+            noBtn.style.display = "none";
+
+            setTimeout(function() {
+                displayImage.src = "images/cat-cat-love.gif";
+                roseMessage.style.display = "block";
+            }, 1500);
+        });
+
+    </script>
+</body>
+</html>
